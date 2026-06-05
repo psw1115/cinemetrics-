@@ -6,10 +6,11 @@ import { X, Play, Sparkles, Star, Users, Film, Compass, Bookmark, ExternalLink }
 interface MovieDetailModalProps {
   movieTitle: string;
   rank: number;
+  movieCd?: string;
   onClose: () => void;
 }
 
-export default function MovieDetailModal({ movieTitle, rank, onClose }: MovieDetailModalProps) {
+export default function MovieDetailModal({ movieTitle, rank, movieCd, onClose }: MovieDetailModalProps) {
   const [loading, setLoading] = useState<boolean>(true);
   const [detail, setDetail] = useState<MovieDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -20,7 +21,8 @@ export default function MovieDetailModal({ movieTitle, rank, onClose }: MovieDet
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`/api/movie/detail?title=${encodeURIComponent(movieTitle)}`);
+        const url = `/api/movie/detail?title=${encodeURIComponent(movieTitle)}${movieCd ? `&movieCd=${movieCd}` : ""}`;
+        const response = await fetch(url);
         if (!response.ok) {
           throw new Error("상세 정보를 가져오는 데 실패했습니다.");
         }

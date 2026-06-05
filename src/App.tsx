@@ -23,7 +23,7 @@ export default function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [selectedMovie, setSelectedMovie] = useState<{ title: string; rank: number } | null>(null);
+  const [selectedMovie, setSelectedMovie] = useState<{ title: string; rank: number; movieCd?: string } | null>(null);
 
   // Fetch box office data
   useEffect(() => {
@@ -198,7 +198,7 @@ export default function App() {
                   <MovieCard 
                     key={movie.title}
                     movie={movie}
-                    onClick={() => setSelectedMovie({ title: movie.title, rank: movie.rank })}
+                    onClick={() => setSelectedMovie({ title: movie.title, rank: movie.rank, movieCd: movie.movieCd })}
                   />
                 ))}
               </AnimatePresence>
@@ -223,6 +223,7 @@ export default function App() {
         <MovieDetailModal
           movieTitle={selectedMovie.title}
           rank={selectedMovie.rank}
+          movieCd={selectedMovie.movieCd}
           onClose={() => setSelectedMovie(null)}
         />
       )}
